@@ -39,6 +39,7 @@ type Server struct {
 	EnableSSLEnforcement      iacTypes.BoolValue
 	MinimumTLSVersion         iacTypes.StringValue
 	EnablePublicNetworkAccess iacTypes.BoolValue
+	GeoRedundantBackupEnabled iacTypes.BoolValue
 	FirewallRules             []FirewallRule
 }
 

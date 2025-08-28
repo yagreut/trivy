@@ -25,6 +25,7 @@ func adaptPostgreSQLServer(resource azure.Resource, deployment azure.Deployment)
 			EnableSSLEnforcement:      resource.Properties.GetMapValue("sslEnforcement").AsBoolValue(false, resource.Metadata),
 			MinimumTLSVersion:         resource.Properties.GetMapValue("minimalTlsVersion").AsStringValue("TLSEnforcementDisabled", resource.Metadata),
 			EnablePublicNetworkAccess: resource.Properties.GetMapValue("publicNetworkAccess").AsBoolValue(false, resource.Metadata),
+			GeoRedundantBackupEnabled: resource.Properties.GetMapValue("geoRedundantBackup").AsBoolValue(false, resource.Metadata),
 			FirewallRules:             addFirewallRule(resource),
 		},
 		Config: adaptPostgreSQLConfiguration(resource, deployment),

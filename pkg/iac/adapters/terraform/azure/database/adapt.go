@@ -347,6 +347,9 @@ func (a *postgresqlAdapter) adaptPostgreSQLServer(resource *terraform.Block, mod
 	publicAccessAttr := resource.GetAttribute("public_network_access_enabled")
 	publicAccessVal := publicAccessAttr.AsBoolValueOrDefault(true, resource)
 
+	geoRedundantBackupAttr := resource.GetAttribute("geo_redundant_backup_enabled")
+	geoRedundantBackupVal := geoRedundantBackupAttr.AsBoolValueOrDefault(false, resource)
+
 	firewallRuleBlocks := module.GetReferencingResources(resource, "azurerm_postgresql_firewall_rule", "server_name")
 	for _, firewallBlock := range firewallRuleBlocks {
 		a.firewallIDs.Resolve(firewallBlock.ID())
@@ -363,6 +366,7 @@ func (a *postgresqlAdapter) adaptPostgreSQLServer(resource *terraform.Block, mod
 			EnableSSLEnforcement:      enableSSLEnforcementVal,
 			MinimumTLSVersion:         minTLSVersionVal,
 			EnablePublicNetworkAccess: publicAccessVal,
+			GeoRedundantBackupEnabled: geoRedundantBackupVal,
 			FirewallRules:             firewallRules,
 		},
 		Config: config,

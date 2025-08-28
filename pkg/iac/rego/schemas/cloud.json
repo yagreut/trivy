@@ -5027,6 +5027,10 @@
             "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.providers.azure.database.FirewallRule"
           }
         },
+        "georedundantbackupenabled": {
+          "type": "object",
+          "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.BoolValue"
+        },
         "minimumtlsversion": {
           "type": "object",
           "$ref": "#/definitions/github.com.aquasecurity.trivy.pkg.iac.types.StringValue"
