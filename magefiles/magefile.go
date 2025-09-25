@@ -28,7 +28,8 @@ var (
 	GOBIN  = filepath.Join(GOPATH, "bin")
 
 	ENV = map[string]string{
-		"CGO_ENABLED": "0",
+		"CGO_ENABLED":  "0",
+		"GOEXPERIMENT": "jsonv2",
 	}
 )
 
@@ -73,7 +74,7 @@ func (Tool) PipTools() error {
 
 // GolangciLint installs golangci-lint
 func (t Tool) GolangciLint() error {
-	const version = "v2.1.2"
+	const version = "v2.4.0"
 	bin := filepath.Join(GOBIN, "golangci-lint")
 	if exists(bin) && t.matchGolangciLintVersion(bin, version) {
 		return nil
@@ -109,12 +110,6 @@ func (Tool) matchGolangciLintVersion(bin, version string) bool {
 func (Tool) Install() error {
 	log.Info("Installing tools, make sure you add $GOBIN to the $PATH")
 	return sh.Run("go", "install", "tool")
-}
-
-// Wire generates the wire_gen.go file for each package
-func Wire() error {
-	mg.Deps(Tool{}.Install) // Install wire
-	return sh.RunV("go", "tool", "wire", "gen", "./pkg/commands/...", "./pkg/rpc/...", "./pkg/k8s/...")
 }
 
 type Protoc mg.Namespace
@@ -341,19 +336,19 @@ type Lint mg.Namespace
 // Run runs linters
 func (l Lint) Run() error {
 	mg.Deps(Tool{}.GolangciLint, Tool{}.Install)
-	if err := sh.RunV("golangci-lint", "run", "--build-tags=integration"); err != nil {
+	if err := sh.RunWithV(ENV, "golangci-lint", "run", "--build-tags=integration"); err != nil {
 		return err
 	}
-	return sh.RunV("modernize", "./...")
+	return sh.RunWithV(ENV, "modernize", "./...")
 }
 
 // Fix auto fixes linters
 func (l Lint) Fix() error {
 	mg.Deps(Tool{}.GolangciLint, Tool{}.Install)
-	if err := sh.RunV("golangci-lint", "run", "--fix", "--build-tags=integration"); err != nil {
+	if err := sh.RunWithV(ENV, "golangci-lint", "run", "--fix", "--build-tags=integration"); err != nil {
 		return err
 	}
-	return sh.RunV("modernize", "-fix", "./...")
+	return sh.RunWithV(ENV, "modernize", "-fix", "./...")
 }
 
 // Fmt formats Go code
