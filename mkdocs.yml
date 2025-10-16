@@ -119,6 +119,7 @@ nav:
               - Bitnami Images: docs/coverage/others/bitnami.md
               - Conda: docs/coverage/others/conda.md
               - Root.io Images: docs/coverage/others/rootio.md
+              - Seal Security: docs/coverage/others/seal.md
               - RPM Archives: docs/coverage/others/rpm.md
           - Kubernetes: docs/coverage/kubernetes.md
       - Configuration:
@@ -168,11 +169,17 @@ nav:
               - CLI:
                   - Overview: docs/references/configuration/cli/trivy.md
                   - Clean: docs/references/configuration/cli/trivy_clean.md
+                  - Cloud:
+                      - Cloud: docs/references/configuration/cli/trivy_cloud.md
+                      - Cloud Edit Config: docs/references/configuration/cli/trivy_cloud_edit-config.md
+                      - Cloud Show Config: docs/references/configuration/cli/trivy_cloud_show-config.md
                   - Config: docs/references/configuration/cli/trivy_config.md
                   - Convert: docs/references/configuration/cli/trivy_convert.md
                   - Filesystem: docs/references/configuration/cli/trivy_filesystem.md
                   - Image: docs/references/configuration/cli/trivy_image.md
                   - Kubernetes: docs/references/configuration/cli/trivy_kubernetes.md
+                  - Login: docs/references/configuration/cli/trivy_login.md
+                  - Logout: docs/references/configuration/cli/trivy_logout.md
                   - Module:
                       - Module: docs/references/configuration/cli/trivy_module.md
                       - Module Install: docs/references/configuration/cli/trivy_module_install.md
@@ -225,6 +232,9 @@ nav:
       - Contribute Rego Checks:
           - Overview: community/contribute/checks/overview.md
           - Add Service Support: community/contribute/checks/service-support.md
+      - Contribute Vulnerability Data Sources:
+          - Overview: community/contribute/vulnerability-database/overview.md
+          - Add Vulnerability Advisory Source: community/contribute/vulnerability-database/add-vulnerability-source.md
       - Maintainer:
           - PR Review: community/maintainer/pr-review.md
           - Release Flow: community/maintainer/release-flow.md
@@ -291,4 +301,3 @@ extra:
 plugins:
   - search
   - macros
-
