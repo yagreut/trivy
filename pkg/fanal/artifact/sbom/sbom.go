@@ -79,7 +79,7 @@ func (a Artifact) Inspect(ctx context.Context) (artifact.Reference, error) {
 	switch format {
 	case sbom.FormatCycloneDXJSON, sbom.FormatCycloneDXXML, sbom.FormatAttestCycloneDXJSON, sbom.FormatLegacyCosignAttestCycloneDXJSON:
 		artifactType = types.TypeCycloneDX
-	case sbom.FormatSPDXTV, sbom.FormatSPDXJSON:
+	case sbom.FormatSPDXTV, sbom.FormatSPDXJSON, sbom.FormatAttestSPDXJSON:
 		artifactType = types.TypeSPDX
 
 	}
@@ -89,6 +89,13 @@ func (a Artifact) Inspect(ctx context.Context) (artifact.Reference, error) {
 		Type:    artifactType,
 		ID:      cacheKey, // use a cache key as pseudo artifact ID
 		BlobIDs: []string{cacheKey},
+		ImageMetadata: artifact.ImageMetadata{
+			ID:          bom.Metadata.ImageID,
+			DiffIDs:     bom.Metadata.DiffIDs,
+			RepoTags:    bom.Metadata.RepoTags,
+			RepoDigests: bom.Metadata.RepoDigests,
+			Reference:   bom.Metadata.Reference,
+		},
 
 		// Keep an original report
 		BOM: bom.BOM,

@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
@@ -322,8 +323,9 @@ func (t Test) VM() error {
 
 // UpdateVMGolden updates golden files for integration tests
 func (t Test) UpdateVMGolden() error {
-	mg.Deps(t.FixtureVMImages)
-	return sh.RunWithV(ENV, "go", "test", "-v", "-tags=vm_integration", "./integration/...", "-update")
+	return errors.New("`mage test:updateVMGolden` is currently not supported. See TestVM function comments in integration/vm_test.go for details")
+	// mg.Deps(t.FixtureVMImages)
+	// return sh.RunWithV(ENV, "go", "test", "-v", "-tags=vm_integration", "./integration/...", "-update")
 }
 
 // E2e runs E2E tests using testscript framework
@@ -424,20 +426,6 @@ func Label() error {
 }
 
 type Docs mg.Namespace
-
-// Prepare CSS
-func (Docs) Css() error {
-	const (
-		homepageSass = "docs/assets/css/trivy_v1_styles.scss"
-	)
-	homepageCss := strings.TrimSuffix(homepageSass, ".scss") + ".min.css"
-	if updated, err := target.Path(homepageCss, homepageSass); err != nil {
-		return err
-	} else if !updated {
-		return nil
-	}
-	return sh.Run("sass", "--no-source-map", "--style=compressed", homepageSass, homepageCss)
-}
 
 // Prepare python requirements
 func (Docs) Pip() error {
